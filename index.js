@@ -16,7 +16,7 @@ let client = new MongoClient(uri ,{useNewUrlParser:true, useUnifiedTopology: tru
 
 
 app.get('/' , (req, res) => {
-    res.send("Welcome to Hot Onion Backend Server");
+    res.send("HOT ONION BACKEND SERVER");
 })
 
 
@@ -58,24 +58,8 @@ app.get('/food/:id', (req,res) => {
     })
 })
 
-app.get('/features' , (req,res) => {
-    client = new MongoClient(uri , {useNewUrlParser:true , useUnifiedTopology: true});
-    client.connect(err => {
-        const collection = client.db('hotOnionRestaurant').collection('features');
-        collection.find().toArray((rej,documents) => {
-            if(rej){
-                res.status(500).send("Failed to fetch data");
-            }else{
-                res.send(documents)
-            }
-        }) 
-        
-    })
-
-})
-
 // Post routes
-app.post('/submitorder' , (req,res) => {
+app.post('/submitOrder' , (req,res) => {
     const data = req.body;
     console.log(data);
     client = new MongoClient(uri , {useNewUrlParser:true , useUnifiedTopology: true});
@@ -91,27 +75,12 @@ app.post('/submitorder' , (req,res) => {
     })
 })
 
-app.post('/addfood' , (req,res) => {
+app.post('/addFood' , (req,res) => {
     const data = req.body;
     console.log(data);
     client = new MongoClient(uri , {useNewUrlParser:true , useUnifiedTopology: true});
     client.connect(err => {
         const collection = client.db('hotOnionRestaurant').collection('foods');
-        collection.insert(data , (rej, result) =>  {
-            if(rej){
-                res.status(500).send("Filed to inset")
-            }else{
-                res.send(result.ops)
-            }
-        })
-    })
-})
-app.post('/addfeatures' , (req,res) => {
-    const data = req.body;
-    console.log(data);
-    client = new MongoClient(uri , {useNewUrlParser:true , useUnifiedTopology: true});
-    client.connect(err => {
-        const collection = client.db('hotOnionRestaurant').collection('features');
         collection.insert(data , (rej, result) =>  {
             if(rej){
                 res.status(500).send("Filed to inset")
